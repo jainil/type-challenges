@@ -18,7 +18,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Push<T, U> = any
+type Push<T extends readonly unknown[], U> =
+  [...T, U]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

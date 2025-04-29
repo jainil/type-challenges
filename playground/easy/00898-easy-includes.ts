@@ -18,7 +18,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Includes<T extends readonly any[], U> = any
+// Implementation of the Equal util 😵‍💫
+type IsEqual<T, U> =
+  (<G>() => G extends T ? 1 : 2) extends
+  (<G>() => G extends U ? 1 : 2)
+    ? true
+    : false
+
+type Includes<T extends readonly unknown[], U> =
+  T extends [infer Head, ...infer Tail]
+    ? IsEqual<Head, U> extends true
+      ? true
+      : Includes<Tail, U>
+    : false
+
+type Include2<T extends unknown[], U> =
+  { [K in keyof T]: Equal<T[K], U> } extends Record<number, false>
+    ? false
+    : true
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
