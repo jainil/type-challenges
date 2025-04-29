@@ -22,7 +22,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Length<T> = any
+type Length<T extends readonly unknown[]> = T['length']
+
+// type Length<T extends readonly unknown[]> =
+//   T extends { length: infer L }
+//     ? L
+//     : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
