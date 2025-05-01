@@ -18,7 +18,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trim<S extends string> = any
+type Whitespace = ' ' | '\n' | '\t'
+
+// type TrimLeft<S extends string> = S extends `${Whitespace}${infer A}`
+//   ? TrimLeft<A>
+//   : S
+
+// type TrimRight<S extends string> = S extends `${infer A}${Whitespace}`
+//   ? TrimRight<A>
+//   : S
+
+// type Trim<S extends string> = TrimLeft<TrimRight<S>>
+
+type Trim<S extends string> =
+  S extends
+  | `${Whitespace}${infer U}`
+  | `${infer U}${Whitespace}`
+    ? Trim<U>
+    : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

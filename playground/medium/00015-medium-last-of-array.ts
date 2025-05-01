@@ -24,7 +24,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Last<T extends any[]> = any
+type Last<T extends unknown[]> = T extends [...any, infer Tail]
+  ? Tail
+  : never
+
+// nice alternative
+type Last1<T extends unknown[]> = [never, ...T][T['length']]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
