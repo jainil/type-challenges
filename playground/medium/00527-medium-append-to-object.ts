@@ -19,7 +19,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AppendToObject<T, U, V> = any
+// type AppendToObject<T, U extends PropertyKey, V> =
+//   {
+//     [P in keyof T | U]: (T & Record<U, V>)[P]
+//   }
+
+type AppendToObject<T, U extends PropertyKey, V> =
+  Omit<T & { [P in U]: V }, never>
+
+type Test = AppendToObject<test1, 'home', boolean>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

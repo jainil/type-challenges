@@ -16,7 +16,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Permutation<T> = any
+// TODO: review
+type Permutation<T, Acc = T> =
+  [T] extends [never]
+    ? []
+    : Acc extends Acc
+      ? [Acc, ...Permutation<Exclude<T, Acc>>]
+      : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

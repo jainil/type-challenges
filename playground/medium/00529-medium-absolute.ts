@@ -19,7 +19,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Absolute<T extends number | string | bigint> = any
+type Absolute<T extends number | string | bigint> =
+  `${T}` extends `-${infer N}` ? N : `${T}`
+
+type Test = Absolute<-5>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
