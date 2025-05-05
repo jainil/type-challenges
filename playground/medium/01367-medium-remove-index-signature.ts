@@ -23,7 +23,28 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RemoveIndexSignature<T> = any
+// TODO: review
+// type RemoveIndexSignature0<T, P = PropertyKey> = {
+//   [K in keyof T as P extends K
+//     ? never
+//     : K extends P
+//       ? K
+//       : never
+//   ]: T[K]
+// }
+
+type TypeLiteralOnly<T> =
+  string extends T
+    ? never
+    : number extends T
+      ? never
+      : symbol extends T
+        ? never
+        : T
+
+type RemoveIndexSignature<T> = {
+  [P in keyof T as TypeLiteralOnly<P>]: T[P]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

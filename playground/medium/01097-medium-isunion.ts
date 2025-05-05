@@ -20,7 +20,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsUnion<T> = any
+// TODO: review https://github.com/type-challenges/type-challenges/issues/1140
+type IsUnion<T, Copy = T> =
+[T] extends [never]
+  ? false
+  : T extends never
+    ? false
+    : [Copy] extends [T]
+        ? false
+        : true
+
+type Test = IsUnion<string>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

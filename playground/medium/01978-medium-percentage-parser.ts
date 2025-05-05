@@ -32,7 +32,30 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PercentageParser<A extends string> = any
+type PercentageParser<A extends string> = [
+  ParseSign<A>,
+  ParseNum<A>,
+  ParsePercent<A>,
+]
+
+type ParseSign<A extends string> =
+  A extends `${infer H extends '+' | '-'}${infer _}`
+    ? H
+    : ''
+
+type ParseNum<A extends string> =
+  A extends `${ParseSign<A>}${infer Num}${ParsePercent<A>}`
+    ? Num
+    : ''
+
+type ParsePercent<A extends string> =
+  A extends `${string}${infer T extends '%'}`
+    ? T
+    : ''
+
+// TODO: reimplement with CheckPrefix/Suffix method
+
+type Test = PercentageParser<'+100%'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

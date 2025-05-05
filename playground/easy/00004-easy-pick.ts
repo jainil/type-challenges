@@ -31,7 +31,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyPick<T extends {}, K extends keyof T> = {[P in K] : T[P]}
+type MyPick<T extends {}, K extends keyof T> = { [P in K]: T[P] }
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
