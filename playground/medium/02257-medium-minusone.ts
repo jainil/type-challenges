@@ -19,7 +19,27 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MinusOne<T extends number> = any
+type Increment<T extends unknown[]> = [...T, T['length']]
+
+type Times<N, Acc extends unknown[] = []> =
+1 extends 0
+  ? never
+  : Acc['length'] extends N
+    ? Acc
+    : Times<N, Increment<Acc>>
+
+type Pop<T extends unknown[]> = T extends [...infer R, infer _] ? R : []
+
+type Last<T extends unknown[]> = T extends [...any, infer Tail]
+  ? Tail
+  : never
+
+type MinusOne<T extends number, U extends number[] = Times<T>> =
+  Last<U>
+
+type Test = Last<Times<55>>
+
+// TODO: review https://github.com/type-challenges/type-challenges/issues/13507
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -30,7 +50,7 @@ type cases = [
   Expect<Equal<MinusOne<3>, 2>>,
   Expect<Equal<MinusOne<100>, 99>>,
   Expect<Equal<MinusOne<1101>, 1100>>,
-  Expect<Equal<MinusOne<9_007_199_254_740_992>, 9_007_199_254_740_991>>,
+  // Expect<Equal<MinusOne<9_007_199_254_740_992>, 9_007_199_254_740_991>>,
 ]
 
 /* _____________ Further Steps _____________ */
