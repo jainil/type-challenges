@@ -26,10 +26,18 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PartialByKeys<T, K> = any
+type Merge<F> = {
+  [K in keyof F ]: F[K]
+}
+
+type PartialByKeys<T, K extends keyof T = keyof T> = Merge<
+  Partial<Pick<T, K>> & Omit<T, K>
+>
+
+type Test = PartialByKeys<User, 'name'>
 
 /* _____________ Test Cases _____________ */
-import type { Equal, Expect } from '@type-challenges/utils'
+import type { Equal, Expect, MergeInsertions } from '@type-challenges/utils'
 
 interface User {
   name: string

@@ -27,7 +27,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RequiredByKeys<T, K> = any
+type Merge<F> = {
+  [K in keyof F ]: F[K]
+}
+
+type RequiredByKeys<T, K extends keyof T = keyof T> = Merge<
+  Required<Pick<T, K>> & Omit<T, K>
+>
+
+type Test = RequiredByKeys<User, 'name'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
