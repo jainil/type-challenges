@@ -37,7 +37,14 @@ interface TreeNode {
   left: TreeNode | null
   right: TreeNode | null
 }
-type InorderTraversal<T extends TreeNode | null> = any
+type InorderTraversal<T extends TreeNode | null> =
+  T extends TreeNode
+    ? [
+        ...InorderTraversal<T['left']>,
+        T['val'],
+        ...InorderTraversal<T['right']>,
+      ]
+    : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -89,6 +96,8 @@ type cases = [
   Expect<Equal<InorderTraversal<typeof tree3>, [2, 1]>>,
   Expect<Equal<InorderTraversal<typeof tree4>, [1, 2]>>,
 ]
+
+type Test = InorderTraversal<typeof tree1>
 
 /* _____________ Further Steps _____________ */
 /*
