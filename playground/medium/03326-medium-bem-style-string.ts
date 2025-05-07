@@ -16,7 +16,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type BEM<B extends string, E extends string[], M extends string[]> = any
+type BX<B extends string, X extends string[], J extends string = '__'> =
+  X extends [infer H extends string, ... infer R extends string[]]
+    ? `${B}${J}${H}` | BX<B, R, J>
+    : never
+
+type BEM<B extends string, E extends string[], M extends string[]> =
+  E extends []
+    ? BX<B, M, '--'>
+    : M extends []
+      ? BX<B, E>
+      : BX<BX<B, E>, M, '--'>
+
+type Test = BEM<'btn', ['price'], []>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
