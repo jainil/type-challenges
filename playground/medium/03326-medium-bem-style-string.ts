@@ -21,12 +21,18 @@ type BX<B extends string, X extends string[], J extends string = '__'> =
     ? `${B}${J}${H}` | BX<B, R, J>
     : never
 
-type BEM<B extends string, E extends string[], M extends string[]> =
+type BEM0<B extends string, E extends string[], M extends string[]> =
   E extends []
     ? BX<B, M, '--'>
     : M extends []
       ? BX<B, E>
       : BX<BX<B, E>, M, '--'>
+
+type Join<T extends string[], U extends string> =
+  T[number] extends never ? '' : `${U}${T[number]}`
+
+type BEM<B extends string, E extends string[], M extends string[]> =
+  `${B}${Join<E, '__'>}${Join<M, '--'>}`
 
 type Test = BEM<'btn', ['price'], []>
 
