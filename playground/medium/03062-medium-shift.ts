@@ -18,7 +18,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Shift<T> = any
+type Shift<T extends readonly unknown[]> =
+  T extends [unknown, ...infer Rest] ? Rest : []
+
+type Test = Shift<[3, 2, 1]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

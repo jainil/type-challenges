@@ -23,7 +23,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ObjectEntries<T> = any
+type ValueOf<T> = T[keyof T]
+
+type ObjectEntries<T> = ValueOf<{
+  [P in keyof Required<T>]: [
+    P,
+    Required<T>[P] extends never
+      ? undefined
+      : Required<T>[P],
+  ]
+}>
+
+type Test = ObjectEntries<Partial<Model>>
+type Test2 = ObjectEntries<{ key?: undefined }>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

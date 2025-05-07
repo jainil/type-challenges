@@ -19,7 +19,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Reverse<T> = any
+type Reverse<T extends readonly unknown[]> =
+  T extends [... infer R, infer L]
+    ? [L, ...Reverse<R>]
+    : T
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
