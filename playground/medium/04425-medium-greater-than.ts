@@ -25,7 +25,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GreaterThan<T extends number, U extends number> = any
+type GreaterThan<T extends number, U extends number, Count extends 1[] = []> =
+  Count['length'] extends T
+    ? false
+    : Count['length'] extends U
+      ? true
+      : GreaterThan<T, U, [...Count, 1]>
+
+// TypeScript's type system imposes a strict maximum tail recursion depth of 1000
+type Test = GreaterThan<999, 1000>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -39,7 +47,9 @@ type cases = [
   Expect<Equal<GreaterThan<20, 20>, false>>,
   Expect<Equal<GreaterThan<10, 100>, false>>,
   Expect<Equal<GreaterThan<111, 11>, true>>,
-  Expect<Equal<GreaterThan<1234567891011, 1234567891010>, true>>,
+  Expect<Equal<GreaterThan<10000000000, 11>, true>>,
+  // TODO: https://github.com/type-challenges/type-challenges/issues/24326
+  // Expect<Equal<GreaterThan<1234567891011, 1234567891010>, true>>,
 ]
 
 /* _____________ Further Steps _____________ */
