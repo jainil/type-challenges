@@ -19,7 +19,16 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Chunk = any
+type Chunk<T extends readonly unknown[], U extends number, A extends readonly unknown[] = []> =
+  T extends [infer Head, ...infer Tail]
+    ? A['length'] extends U
+      ? [A, ...Chunk<T, U, []>]
+      : Chunk<Tail, U, [...A, Head]>
+    : A['length'] extends 0
+      ? A
+      : [A]
+
+type Test = Chunk<[1, 2, 3], 1>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

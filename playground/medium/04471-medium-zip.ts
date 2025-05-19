@@ -15,7 +15,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Zip<T, U> = any
+type Zip<T extends unknown[], U extends unknown[]> =
+  T extends [infer H1, ... infer T1]
+    ? U extends [infer H2, ... infer T2]
+      ? [[H1, H2], ...Zip<T1, T2>]
+      : []
+    : []
+
+type Test = Zip<[1, 2], [true, false]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
