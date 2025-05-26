@@ -24,7 +24,17 @@ type Fill<
   N,
   Start extends number = 0,
   End extends number = T['length'],
-> = any
+  Acc extends unknown[] = [],
+> =
+  T extends [infer Head, ...infer Tail]
+    ? [...Acc, 'o'][Start] extends undefined
+        ? Fill<Tail, N, Start, End, [...Acc, Head]>
+        : [...Acc, 'o'][End] extends undefined
+            ? Fill<Tail, N, Start, End, [...Acc, N]>
+            : Fill<Tail, N, Start, End, [...Acc, Head]>
+    : Acc
+
+type Test = Fill<[1, 2, 3], 0, 0, 0>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
